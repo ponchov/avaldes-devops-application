@@ -1,0 +1,32 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ .Values.nodeapp.name }}
+  labels:
+    app: {{ .Values.nodeapp.name }}
+    environment: {{ .Values.nodeapp.env }}
+    chart: {{ .Values.nodeapp.name }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.nodeapp.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.nodeapp.name }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.nodeapp.name }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Values.nodeapp.name }}
+          image: "{{ .Values.nodeapp.image }}:{{ .Values.nodeapp.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+          {{- include "map-secrets-nodeapp" . }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.nodeapp.port }}
+              protocol: TCP

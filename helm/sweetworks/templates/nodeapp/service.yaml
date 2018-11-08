@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.nodeapp.name }}
+  labels:
+    app: {{ .Values.nodeapp.name }}
+    chart: {{ .Values.nodeapp.name }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.nodeapp.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: {{ .Values.nodeapp.name }}
+    release: {{ .Release.Name }}

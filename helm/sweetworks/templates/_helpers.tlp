@@ -1,0 +1,23 @@
+{{/*
+Iterate through the values in config and map the secrets to environment variables with the same name
+*/}}
+
+{{- define "map-secrets-nodeapp" -}}
+ {{- range $k := .Values.nodeappSecrets}}
+            - name: {{ $k | upper }}
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-nodeapp
+                  key: {{ $k | upper}}
+ {{- end }}
+{{- end -}}
+
+{{- define "map-secrets-postgres" -}}
+ {{- range $k := .Values.postgressSecrets}}
+            - name: {{ $k | upper }}
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-postgres
+                  key: {{ $k | upper}}
+ {{- end }}
+{{- end -}}

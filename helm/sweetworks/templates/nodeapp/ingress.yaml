@@ -1,0 +1,22 @@
+{{- if .Values.nodeapp.ingress -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .Values.nodeapp.name }}
+  labels:
+    app: {{ .Values.nodeapp.name }}
+    chart: {{ .Values.nodeapp.name }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+    - host: someendpoint.com
+      http:
+        paths:
+          - path: {{ .Values.nodeapp.path }}
+            backend:
+              serviceName: {{ .Values.nodeapp.name }}
+              servicePort: 80
+{{- end }}

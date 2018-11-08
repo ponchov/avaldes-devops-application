@@ -1,0 +1,26 @@
+version: '3.2'
+services:
+  postgres:
+    hostname: postgres
+    image: postgres
+    container_name: postgres
+    environment:
+      - "POSTGRES_USER=nodeapp"
+      - "POSTGRES_DB=nodeapp"
+      - "POSTGRES_PASSWORD=nodeSecurePasswordjs"
+    volumes:
+      - "${HOME}/postgress_data:/var/lib/postgresql/data"
+
+  nodeapp:
+    hostname: nodeapp
+    build:
+      context: .
+      dockerfile: Dockerfile
+    #image:
+    depends_on:
+      - postgres
+    container_name: nodeapp
+    env_file:
+      - nodeapp.env
+    ports:
+      - "3091:3091"

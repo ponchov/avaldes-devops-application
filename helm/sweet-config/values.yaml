@@ -1,0 +1,34 @@
+# vlues for sweet work  apps
+#
+#
+
+nodeapp:
+  name: nodeapp
+
+postgres:
+  name: postgres
+
+nodeenvs:
+  devops_test_backend_release_version: "1.0"
+  devops_test_backend_name: nodeapp
+  devops_test_env: development
+  devops_test_port: "3081"
+  devops_test_database_name: nodeapp
+  devops_test_database_username: nodeapp
+  devops_test_database_password: nodesecurepasswordjs
+  devops_test_database_host: postgres-svc
+  devops_test_database_port: "5432"
+  devops_test_database_pool_size_max: "3"
+  devops_test_database_pool_size_min: "0"
+  devops_test_database_timeout: "2000"
+  devops_test_database_pool_size_min: "3"
+  devops_test_backend_aws_user_bucket_name: sometestbucket-1029
+  devops_test_backend_aws_access_key: AKIAJ5DB54K2AKTRU9IA
+  devops_test_backend_aws_secret_key: 7GIhPbUa3PRZmEG7
+  devops_test_backend_aws_prefix: files
+  devops_test_backend_aws_region: us-east-1
+
+postgresenv:
+  postgres_user: "nodeapp"
+  postgres_db: "nodeapp"
+  postgres_password: "nodesecurepasswordjs"

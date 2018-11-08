@@ -1,0 +1,73 @@
+# Default values for sweet-k8s.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  pullPolicy: Always
+
+nodeapp:
+  name: nodeapp
+  image: 593722908892.dkr.ecr.us-east-1.amazonaws.com/sweet
+  replicaCount: 1
+  env: stable
+  tag: latest
+  port: 3081
+  ingress: true
+  path: /
+  tls:
+    - secretName: nodeapp-tls
+      hosts:
+        - someendpoint.com
+
+postgres:
+  name: postgres
+  image: postgres
+  replicaCount: 1
+  env: stable
+  tag: latest
+  port: 5432
+
+# Load Secrets within containers
+postgressSecrets:
+  - POSTGRES_USER
+  - POSTGRES_DB
+  - POSTGRES_PASSWORD
+
+nodeappSecrets:
+  - DEVOPS_TEST_BACKEND_RELEASE_VERSION
+  - DEVOPS_TEST_BACKEND_NAME
+  - DEVOPS_TEST_ENV
+  - DEVOPS_TEST_PORT
+  - DEVOPS_TEST_DATABASE_NAME
+  - DEVOPS_TEST_DATABASE_USERNAME
+  - DEVOPS_TEST_DATABASE_PASSWORD
+  - DEVOPS_TEST_DATABASE_HOST
+  - DEVOPS_TEST_DATABASE_PORT
+  - DEVOPS_TEST_DATABASE_POOL_SIZE_MAX
+  - DEVOPS_TEST_DATABASE_POOL_SIZE_MIN
+  - DEVOPS_TEST_DATABASE_TIMEOUT
+  - DEVOPS_TEST_DATABASE_POOL_SIZE_MIN
+  - DEVOPS_TEST_BACKEND_AWS_USER_BUCKET_NAME
+  - DEVOPS_TEST_BACKEND_AWS_ACCESS_KEY
+  - DEVOPS_TEST_BACKEND_AWS_SECRET_KEY
+  - DEVOPS_TEST_BACKEND_AWS_PREFIX
+  - DEVOPS_TEST_BACKEND_AWS_REGION
+
+service:
+  type: ClusterIP
+
+resources: {}
+  # limits:
+  #  cpu: 100m
+  #  memory: 128Mi
+  # requests:
+  #  cpu: 100m
+  #  memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

@@ -1,0 +1,89 @@
+#!/usr/bin/env node --use_strict
+
+require('babel-register');
+require('babel-polyfill');
+require('object.entries').shim();
+
+const app = require('../app').default;
+const http = require('http');
+const config = require('../helpers/config_helper').default;
+const logger = require('../utils/logger').default;
+
+const port = config.application.port;
+app.set('port', port);
+
+const server = http.createServer(app);
+
+/**
+ * onError Handle server errors
+ * @param {Error} - error object which denotes a internal error
+ */
+const onError = (e) => {
+  logger.warn('Error with server.');
+
+  switch(e.code) {
+    case 'EACCES':
+      logger.error('Port %d requires elevated privileges.', port);
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      logger.error('Port %d is already in use.', port);
+      process.exit(1);
+      break;
+    default:
+      throw e;
+  };
+};
+
+/**
+ * listen binder
+ */
+const onListening = () => {
+  logger.info('application is starting...');
+  let addr = server.address();
+  let bind = (typeof addr === 'string') ? `pipe ${addr}` : `port ${addr.port}`;
+  logger.info(`listening on ${bind}`);
+};
+
+/**
+ * message listener
+ * @param {number|string} msg
+ */
+const onMessage = (msg) => {
+  if (msg === 'shutdown') {
+    logger.info('application shutting down...');
+    server.close();
+    process.exit(0);
+  }
+}
+
+/**
+ * Handle system signals
+ * @param {number|string} msg
+ */
+const onProcessSignal = (msg) => {
+  logger.info('Application is shutting down...');
+
+  // Close server
+  server.close();
+
+  // Check if this was a shutdown message and exit cleanly
+  if (msg && msg === 'shutdown') {
+    process.exit(0);
+  }
+
+  process.exit(1);
+};
+
+const onStartup = () => {
+  // Create and start server
+  server.listen(port);
+  server.on('error', onError);
+  server.on('listening', onListening);
+
+  // Handle system signals
+  process.on('message', onMessage);
+  process.on('SIGTERM', onProcessSignal);
+}
+
+onStartup();
