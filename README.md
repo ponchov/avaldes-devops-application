@@ -4,7 +4,9 @@ A basic NodeJs backend application created for the devops test.
 
 ### General description
 
-The application consist in two general endpoints, these are `GET /users` and `GET /files`. The first endpoint retrieves all the registers of users stored in a postgreSQL database, and the second one list all the files that are stored in a S3 bucket. The rest of the endpoint are for ensuring application health and rediness
+The application consist in two general endpoints, these are `GET /users` and `GET /files`. The first endpoint retrieves all the registers of
+ users stored in a postgreSQL database, and the second one list all the files that are stored in a S3 bucket. The rest of the endpoint are f
+or ensuring application health and rediness
 
 ### Endpoint list
 
@@ -25,25 +27,25 @@ This endpoint returns a fixed number of users (2) registered in the postgres dat
 ```json
 {
 "meta": {
-	"count" : 2
+        "count" : 2
 },
 
 "data": [
-	{
-		"id": 1,
-		"username": "Fake User 1",
-		"email": "foo@email.com",
-		"created_at": "2018-10-17T15:46:08.0003Z",
-		"updated_at": "2018-10-17T15:46:08.0003Z",
-		},
-	{
-		"id": 2,
-		"username": "Fake User 2",
-		"email": "bar@email.com",
-		"created_at": "2018-10-17T15:46:08.0003Z",
-		"updated_at": "2018-10-17T15:46:08.0003Z",
-		}
-	]
+        {
+                "id": 1,
+                "username": "Fake User 1",
+                "email": "foo@email.com",
+                "created_at": "2018-10-17T15:46:08.0003Z",
+                "updated_at": "2018-10-17T15:46:08.0003Z",
+                },
+        {
+                "id": 2,
+                "username": "Fake User 2",
+                "email": "bar@email.com",
+                "created_at": "2018-10-17T15:46:08.0003Z",
+                "updated_at": "2018-10-17T15:46:08.0003Z",
+                }
+        ]
 }
 ```
 
@@ -54,13 +56,13 @@ This endpoint returns the total number of items and the name of the files (2) st
 ```json
 {
 "meta": {
-	"count" : 1
+        "count" : 1
 },
 
 "data": {
-		"number_of_items": 2,
-		"filenames": ["foo.txt", "bar.txt"]
-	}
+                "number_of_items": 2,
+                "filenames": ["foo.txt", "bar.txt"]
+        }
 }
 ```
 
@@ -71,13 +73,13 @@ This endpoint returns the actual version of the software running and it's uptime
 ```json
 {
 "meta": {
-	"count": 0
+        "count": 0
 },
 
 "data": {
-	"uptime": 82467,
-	"version": "0.1.1"
-	}
+        "uptime": 82467,
+        "version": "0.1.1"
+        }
 }
 ```
 
@@ -88,12 +90,12 @@ This endpoint returns the uptime of the application in seconds
 ```json
 {
 "meta": {
-	"count": 0
+        "count": 0
 },
 
 "data": {
-	"uptime": 82467,
-	}
+        "uptime": 82467,
+        }
 }
 ```
 
@@ -104,14 +106,14 @@ This endpoint returns the current service uptime and dependencies readiness
 ```json
 {
 "meta": {
-	"count": 0
+        "count": 0
 },
 
 "data": {
-	"uptime": 82669,
-	"service": "ok",
-	"postgres": "ok"
-	}
+        "uptime": 82669,
+        "service": "ok",
+        "postgres": "ok"
+        }
 }
 ```
 
@@ -121,6 +123,32 @@ You will need the following tools to operate over `devops-test-app`:
 
 - `nodejs` = 8.11
 - `postgres` >= 9.4
+- `docker`
+- `docker-compose`
+
+### Installation
+- `docker`: https://docs.docker.com/cs-engine/1.13/
+- `docker-compose`: https://docs.docker.com/compose/install/#install-compose
+- `nodejs`: https://nodejs.org/en/download/
+
+### Local Environment using Docker & Docker compose
+Ensure you're inside `devops-test-app` root directory and already have installed requirements above.
+
+There is one file named `nodeapp.env` which handle Docker environment variables change for NodeApp, in case you'll need to modify some of that environment variable open your favorite editor and change accordingly.
+After that, 
+Run the follow command to get your app running locally:
+```sh
+docker-compose up -d --build --force-recreate
+```
+Wait some minutes till getting Posgress and NodeApp running and up. 
+Ensure everything is working well by doing wheather theese steps:
+1. 
+```sh
+curl http://localhost:3091
+```
+2.
+Go to your browser and paste this URL: `http://localhost:3091`
+**Then you're application, it'll be running**
 
 ### Local development/deployment
 
@@ -198,3 +226,4 @@ $ npm run test
 | DEVOPS_TEST_BACKEND_AWS_SECRET_KEY | The aws api secret key used for devops-test | - | yes |
 | DEVOPS_TEST_BACKEND_AWS_PREFIX | The s3 prefix where files are stored | files | no |
 | DEVOPS_TEST_BACKEND_AWS_REGION | The aws region where | us-east-1 | yes |
+
