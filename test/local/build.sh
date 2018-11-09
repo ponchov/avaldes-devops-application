@@ -13,7 +13,7 @@ echo "===> Wait 5 seconds till NodeApp get running properly"
 sleep 5
 echo "===> Running 'npm run migrate-up' to create DB scheme"
 nodeapp=$(docker ps | grep nodeapp | awk '{print $1}')
-docker exec -T $nodeapp npm run migrate-up
+docker exec $nodeapp npm run migrate-up
 
 echo "===> Local Testing if it worls properly"
 getUsers=$(curl -s -o /dev/null -w '%{http_code}' localhost:3091/users)
@@ -28,4 +28,4 @@ else
 fi
 
 echo "===> Running UNIT tests"
-docker exec -T $nodeapp npm test
+docker exec $nodeapp npm test
