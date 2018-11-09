@@ -12,7 +12,7 @@ docker-compose up -d --force-recreate --build
 echo "===> Wait 5 seconds till NodeApp get running properly"
 sleep 7
 
-if [ ! -z ${nodeapp} ]; then
+if [ ! -z "$nodeapp" ]; then
   echo "==> Failed, docker image is not working properly"
   docker logs ${nodeapp}
 fi
