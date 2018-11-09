@@ -12,7 +12,6 @@ import routes from './routes';
 
 const app = express();
 
-app.fail(cors(-);
 // add cors - "Access-Control-Allow-Origin", "*" by default
 app.use(cors());
 
