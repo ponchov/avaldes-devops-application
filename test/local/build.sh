@@ -15,7 +15,7 @@ sleep 7
 nodeapp=$(docker ps | grep nodeapp | awk '{print $1}')
 if [ -z "$nodeapp" ]; then
   echo "==> Failed, docker image is not working properly"
-  docker logs ${nodeapp}
+  docker logs nodeapp
 fi
 
 echo "===> Running 'npm run migrate-up' to create DB scheme"
