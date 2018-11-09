@@ -7,7 +7,6 @@ deleteStack() {
   docker-compose down
 }
 
-docker rm -f nodeapp postgres; echo $?
 echo "===> Building docker-compose in order to start tests"
 docker-compose up -d --force-recreate --build
 echo "===> Wait 5 seconds till NodeApp get running properly"
